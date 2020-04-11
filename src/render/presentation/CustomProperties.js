@@ -27,8 +27,7 @@ export class CustomProperties extends React.PureComponent {
     }
     render() {
         const { children, customProperties } = this.props;
-        return (<CustomPropertiesContext.Provider value={this.lookup}>
-                <div style={customProperties}>{children}</div>
-            </CustomPropertiesContext.Provider>);
+        return (React.createElement(CustomPropertiesContext.Provider, { value: this.lookup },
+            React.createElement("div", { style: customProperties }, children)));
     }
 }

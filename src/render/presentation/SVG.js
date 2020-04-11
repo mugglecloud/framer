@@ -21,7 +21,7 @@ import { elementPropertiesForLinearGradient, elementPropertiesForRadialGradient,
  */
 export function SVG(props) {
     const parentSize = useParentSize();
-    return <SVGComponent {...props} parentSize={parentSize}/>;
+    return React.createElement(SVGComponent, Object.assign({}, props, { parentSize: parentSize }));
 }
 function sizeSVG(container, props) {
     const div = container.current;
@@ -161,13 +161,10 @@ class SVGComponent extends Layer {
             const gradientId = `${encodeURI(id || "")}g${LinearGradient.hash(gradient)}`;
             style.fill = `url(#${gradientId})`;
             const elementProperties = elementPropertiesForLinearGradient(gradient, id);
-            fillElement = (<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style={{ position: "absolute" }}>
-                    <linearGradient id={gradientId} gradientTransform={`rotate(${elementProperties.angle}, 0.5, 0.5)`}>
-                        {elementProperties.stops.map((stop, idx) => {
-                return (<stop key={idx} offset={stop.position} stopColor={stop.color} stopOpacity={stop.alpha}/>);
-            })}
-                    </linearGradient>
-                </svg>);
+            fillElement = (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "100%", height: "100%", style: { position: "absolute" } },
+                React.createElement("linearGradient", { id: gradientId, gradientTransform: `rotate(${elementProperties.angle}, 0.5, 0.5)` }, elementProperties.stops.map((stop, idx) => {
+                    return (React.createElement("stop", { key: idx, offset: stop.position, stopColor: stop.color, stopOpacity: stop.alpha }));
+                }))));
         }
         else if (RadialGradient.isRadialGradient(fill)) {
             const gradient = fill;
@@ -176,33 +173,26 @@ class SVGComponent extends Layer {
             const gradientId = `${encodeURI(id || "")}g${RadialGradient.hash(gradient)}`;
             style.fill = `url(#${gradientId})`;
             const elementProperties = elementPropertiesForRadialGradient(gradient, id);
-            fillElement = (<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style={{ position: "absolute" }}>
-                    <radialGradient id={gradientId} cy={gradient.centerAnchorY} cx={gradient.centerAnchorX} r={gradient.widthFactor}>
-                        {elementProperties.stops.map((stop, idx) => {
-                return (<stop key={idx} offset={stop.position} stopColor={stop.color} stopOpacity={stop.alpha}/>);
-            })}
-                    </radialGradient>
-                </svg>);
+            fillElement = (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "100%", height: "100%", style: { position: "absolute" } },
+                React.createElement("radialGradient", { id: gradientId, cy: gradient.centerAnchorY, cx: gradient.centerAnchorX, r: gradient.widthFactor }, elementProperties.stops.map((stop, idx) => {
+                    return (React.createElement("stop", { key: idx, offset: stop.position, stopColor: stop.color, stopOpacity: stop.alpha }));
+                }))));
         }
         else if (BackgroundImage.isImageObject(fill)) {
             const imagePattern = imagePatternPropsForFill(fill, size, id);
             if (imagePattern) {
                 style.fill = `url(#${imagePattern.id})`;
-                fillElement = (<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" height="100%" style={{ position: "absolute" }}>
-                        <defs>
-                            <ImagePatternElement {...imagePattern}/>
-                        </defs>
-                    </svg>);
+                fillElement = (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", xmlnsXlink: "http://www.w3.org/1999/xlink", width: "100%", height: "100%", style: { position: "absolute" } },
+                    React.createElement("defs", null,
+                        React.createElement(ImagePatternElement, Object.assign({}, imagePattern)))));
             }
         }
         const dataProps = {
             "data-framer-component-type": "SVG",
         };
-        return (<div {...dataProps} id={id} style={style}>
-                {fillElement}
-                <div key={BackgroundImage.isImageObject(fill) ? fill.src : ""} // Webkit doesn't update when a new image is set
-         className={"svgContainer"} style={innerStyle} ref={this.container} dangerouslySetInnerHTML={{ __html: svg }}/>
-            </div>);
+        return (React.createElement("div", Object.assign({}, dataProps, { id: id, style: style }),
+            fillElement,
+            React.createElement("div", { key: BackgroundImage.isImageObject(fill) ? fill.src : "", className: "svgContainer", style: innerStyle, ref: this.container, dangerouslySetInnerHTML: { __html: svg } })));
     }
 }
 SVGComponent.supportsConstraints = true;

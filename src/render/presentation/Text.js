@@ -20,7 +20,7 @@ import { forceLayerBackingWithCSSProperties } from "../utils/setLayerBacked";
  */
 export function Text(props) {
     const parentSize = useParentSize();
-    return <TextComponent {...props} parentSize={parentSize}/>;
+    return React.createElement(TextComponent, Object.assign({}, props, { parentSize: parentSize }));
 }
 class TextComponent extends Layer {
     constructor() {
@@ -136,15 +136,14 @@ class TextComponent extends Layer {
                 style.whiteSpace = "pre-wrap";
                 style.wordWrap = "break-word";
                 style.lineHeight = "1px";
-                return <div id={id} style={style} {...dataProps} dangerouslySetInnerHTML={{ __html: rawHTML }}/>;
+                return React.createElement("div", Object.assign({ id: id, style: style }, dataProps, { dangerouslySetInnerHTML: { __html: rawHTML } }));
             }
             if (!this.editorState || this.editorText !== text) {
                 this.editorText = text;
                 this.editorState = this.editorStateForContentState(contentState);
             }
-            return (<div id={id} style={style} {...dataProps}>
-                <Editor editorState={this.editorState} onChange={this.onChange} readOnly={true} customStyleFn={draftStyleFunction} blockRendererFn={this.blockRendererFn} textAlignment={alignment}/>
-            </div>);
+            return (React.createElement("div", Object.assign({ id: id, style: style }, dataProps),
+                React.createElement(Editor, { editorState: this.editorState, onChange: this.onChange, readOnly: true, customStyleFn: draftStyleFunction, blockRendererFn: this.blockRendererFn, textAlignment: alignment })));
         };
         this.blockRendererFn = block => {
             return draftBlockRendererFunction({ editable: false, alignment: this.props.alignment })(block);
@@ -174,7 +173,7 @@ class TextComponent extends Layer {
     }
     render() {
         // Refactor to use React.useContext()
-        return <ComponentContainerContext.Consumer>{this.renderMain}</ComponentContainerContext.Consumer>;
+        return React.createElement(ComponentContainerContext.Consumer, null, this.renderMain);
     }
 }
 TextComponent.supportsConstraints = true;

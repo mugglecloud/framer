@@ -32,16 +32,14 @@ export class VectorGroup extends Layer {
                 name_ = defaultName;
             }
         }
-        return this.renderElement(<g transform={transformString(transform)} {...{ id, name: name_, opacity }}>
-                {children}
-            </g>);
+        return this.renderElement(React.createElement("g", Object.assign({ transform: transformString(transform) }, { id, name: name_, opacity }), children));
     }
     renderElement(element) {
         const { isRootVectorNode, width, height, frame, willChangeTransform } = this.props;
         if (!isRootVectorNode) {
             return element;
         } // else
-        return <SVGRoot {...{ frame, width, height, willChangeTransform }}>{element}</SVGRoot>;
+        return React.createElement(SVGRoot, Object.assign({}, { frame, width, height, willChangeTransform }), element);
     }
 }
 VectorGroup.defaultVectorGroupProps = {

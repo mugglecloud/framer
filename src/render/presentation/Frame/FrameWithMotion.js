@@ -173,7 +173,7 @@ forwardRef(function FrameWithMotion(props, ref) {
     if (!visible) {
         return null;
     }
-    return <VisibleFrame {...props} ref={ref}/>;
+    return React.createElement(VisibleFrame, Object.assign({}, props, { ref: ref }));
 }), {
     rect(props, parentSize) {
         return calculateRect(unwrapFrameProps(props), parentSize || ParentSizeState.Unknown);
@@ -208,11 +208,8 @@ const VisibleFrame = forwardRef((props, ref) => {
         dataProps["data-framer-name"] = name;
     }
     const parentSize = rect ? { width: rect.width, height: rect.height } : ParentSizeState.Disabled;
-    const wrappedContent = useProvideParentSize(<>
-            {children}
-            <Border {..._border} border={border}/>
-        </>, parentSize);
-    return (<motion.div {...dataProps} {...motionProps} style={currentStyle} ref={externalRef} transformValues={transformValues}>
-            {wrappedContent}
-        </motion.div>);
+    const wrappedContent = useProvideParentSize(React.createElement(React.Fragment, null,
+        children,
+        React.createElement(Border, Object.assign({}, _border, { border: border }))), parentSize);
+    return (React.createElement(motion.div, Object.assign({}, dataProps, motionProps, { style: currentStyle, ref: externalRef, transformValues: transformValues }), wrappedContent));
 });

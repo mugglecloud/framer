@@ -72,7 +72,7 @@ export class Navigation extends React.Component {
     transition(component, transitionTraits, transitionOptions) {
         if (!component)
             return;
-        const transition = Object.assign(Object.assign({}, transitionTraits), transitionOptions);
+        const transition = { ...transitionTraits, ...transitionOptions };
         const overCurrentContext = !!transition.overCurrentContext;
         const stackState = this.getStackState({ overCurrentContext });
         // Don't push to the same Frame twice
@@ -124,7 +124,7 @@ export class Navigation extends React.Component {
         const stackState = this.getStackState({ overCurrentContext: false });
         const overlayStackState = this.getStackState({ overCurrentContext: true });
         const activeOverlay = activeOverlayItem(overlayStackState);
-        return (React.createElement(FrameWithMotion, { top: 0, left: 0, width: "100%", height: "100%", position: "relative", style: Object.assign({ overflow: "hidden", background: "unset" }, this.props.style) },
+        return (React.createElement(FrameWithMotion, { top: 0, left: 0, width: "100%", height: "100%", position: "relative", style: { overflow: "hidden", background: "unset", ...this.props.style } },
             React.createElement(NavigationContext.Provider, { value: this },
                 React.createElement(NavigationContainer, { position: undefined, initialProps: {}, instant: false, transitionProps: transitionPropsForStackWrapper(activeOverlay), animation: animationForStackWrapper(activeOverlay), backfaceVisible: backfaceVisibleForStackWrapper(activeOverlay), visible: true, hideAfterTransition: false, backdropColor: undefined, onTapBackdrop: undefined }, this.stack.map((item, stackIndex) => {
                     return (React.createElement(NavigationContainer, { key: item.key, position: item.transition.position, initialProps: initialPropsForContainer(stackIndex, stackState), transitionProps: transitionPropsForContainer(stackIndex, stackState), instant: isInstantContainerTransition(stackIndex, stackState), animation: animationPropsForContainer(stackIndex, stackState), visible: containerIsVisible(stackIndex, stackState), hideAfterTransition: containerShouldHideAfterTransition(stackIndex, stackState), backfaceVisible: getBackfaceVisible(stackIndex, stackState), backdropColor: undefined, onTapBackdrop: undefined }, containerContent(item)));

@@ -114,31 +114,30 @@ export class Vector extends Layer {
         const currentName = target === RenderTarget.preview ? name || undefined : undefined;
         if (shadow.insetElement !== null || shadow.outsetElement !== null || insideStroke) {
             pathAttributes.id = internalShapeId.id;
-            shapeReference = <path {...{ ...pathAttributes }}/>;
+            shapeReference = React.createElement("path", Object.assign({}, { ...pathAttributes }));
             if (shadow.needsStrokeClip || insideStroke) {
-                strokeClipPath = (<clipPath id={internalStrokeClipId.id}>
-                        <use xlinkHref={internalShapeId.link}/>
-                    </clipPath>);
+                strokeClipPath = (React.createElement("clipPath", { id: internalStrokeClipId.id },
+                    React.createElement("use", { xlinkHref: internalShapeId.link })));
             }
             if (shadow.insetElement !== null && strokeEnabled && strokeWidth && strokeWidth > 0) {
-                mainElement = (<use xlinkHref={internalShapeId.link} fill={vectorFill} strokeOpacity="0" name={currentName}/>);
-                strokeElement = (<use xlinkHref={internalShapeId.link} clipPath={internalStrokeClipId.urlLink} fill={"transparent"} {...svgStrokeAttributes} strokeWidth={strokeWidth}/>);
+                mainElement = (React.createElement("use", { xlinkHref: internalShapeId.link, fill: vectorFill, strokeOpacity: "0", name: currentName }));
+                strokeElement = (React.createElement("use", Object.assign({ xlinkHref: internalShapeId.link, clipPath: internalStrokeClipId.urlLink, fill: "transparent" }, svgStrokeAttributes, { strokeWidth: strokeWidth })));
             }
             else {
-                mainElement = (<use xlinkHref={internalShapeId.link} fill={vectorFill} clipPath={internalStrokeClipId.urlLink} {...svgStrokeAttributes} strokeWidth={strokeWidth} name={currentName}/>);
+                mainElement = (React.createElement("use", Object.assign({ xlinkHref: internalShapeId.link, fill: vectorFill, clipPath: internalStrokeClipId.urlLink }, svgStrokeAttributes, { strokeWidth: strokeWidth, name: currentName })));
             }
         }
         else {
             pathAttributes.id = idAttribute;
-            mainElement = (<path {...{ ...pathAttributes, fill: vectorFill, ...svgStrokeAttributes }} name={currentName}/>);
+            mainElement = (React.createElement("path", Object.assign({}, { ...pathAttributes, fill: vectorFill, ...svgStrokeAttributes }, { name: currentName })));
         }
-        const imagePatternElement = imagePattern ? <ImagePatternElement {...imagePattern}/> : undefined;
+        const imagePatternElement = imagePattern ? React.createElement(ImagePatternElement, Object.assign({}, imagePattern)) : undefined;
         let gradient;
         if (linearGradient) {
-            gradient = <LinearGradientElement {...linearGradient}/>;
+            gradient = React.createElement(LinearGradientElement, Object.assign({}, linearGradient));
         }
         else if (radialGradient) {
-            gradient = <RadialGradientElement {...radialGradient}/>;
+            gradient = React.createElement(RadialGradientElement, Object.assign({}, radialGradient));
         }
         let defs = null;
         if (shapeReference ||
@@ -146,28 +145,26 @@ export class Vector extends Layer {
             (shadow.definition && shadow.definition.length) ||
             gradient ||
             imagePatternElement) {
-            defs = (<defs>
-                    {shapeReference}
-                    {strokeClipPath}
-                    {shadow.definition}
-                    {gradient}
-                    {imagePatternElement}
-                </defs>);
+            defs = (React.createElement("defs", null,
+                shapeReference,
+                strokeClipPath,
+                shadow.definition,
+                gradient,
+                imagePatternElement));
         }
         if (defs === null && shadow.outsetElement === null && shadow.insetElement === null && strokeElement === null) {
             // Render the mainElement with opacity
-            mainElement = (<path {...{ ...pathAttributes, fill: vectorFill, opacity, ...svgStrokeAttributes }} name={currentName}/>);
+            mainElement = (React.createElement("path", Object.assign({}, { ...pathAttributes, fill: vectorFill, opacity, ...svgStrokeAttributes }, { name: currentName })));
             // Don't group the main element if not needed:
             return this.renderElement(mainElement);
         }
         else {
-            return this.renderElement(<g opacity={opacity}>
-                    {defs}
-                    {shadow.outsetElement}
-                    {mainElement}
-                    {shadow.insetElement}
-                    {strokeElement}
-                </g>);
+            return this.renderElement(React.createElement("g", { opacity: opacity },
+                defs,
+                shadow.outsetElement,
+                mainElement,
+                shadow.insetElement,
+                strokeElement));
         }
     }
     renderElement(element) {
@@ -175,7 +172,7 @@ export class Vector extends Layer {
         if (!isRootVectorNode) {
             return element;
         } // else
-        return <SVGRoot {...{ frame, width, height, willChangeTransform }}>{element}</SVGRoot>;
+        return React.createElement(SVGRoot, Object.assign({}, { frame, width, height, willChangeTransform }), element);
     }
 }
 Vector.defaultVectorProps = {

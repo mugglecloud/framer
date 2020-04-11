@@ -18,8 +18,6 @@ export class SVGRoot extends React.Component {
             transform: `translate(${fx}px, ${fy}px)`,
         };
         Layer.applyWillChange(this.props, svgStyle, false);
-        return (<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={svgStyle}>
-                {children}
-            </svg>);
+        return (React.createElement("svg", { width: "100%", height: "100%", xmlns: "http://www.w3.org/2000/svg", xmlnsXlink: "http://www.w3.org/1999/xlink", style: svgStyle }, children));
     }
 }

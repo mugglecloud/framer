@@ -49,8 +49,8 @@ export function Border(props) {
     if (props.border) {
         ;
         style.border = props.border;
-        return <motion.div style={style}/>;
+        return React.createElement(motion.div, { style: style });
     }
     collectBorderStyleForProps(props, style);
-    return <div style={style}/>;
+    return React.createElement("div", { style: style });
 }

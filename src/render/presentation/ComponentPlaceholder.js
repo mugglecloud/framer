@@ -12,10 +12,9 @@ export var PlaceholderType;
  * @internal
  */
 export function ComponentPlaceholder({ type, title, message, props, }) {
-    return (<FrameWithMotion className={className(type)} style={baseStyle} width={"100%"} height={"100%"} {...props}>
-            <div style={titleStyle}>{placeholderTitle(type, title)}</div>
-            {message && <div style={messageStyle}>{message}</div>}
-        </FrameWithMotion>);
+    return (React.createElement(FrameWithMotion, Object.assign({ className: className(type), style: baseStyle, width: "100%", height: "100%" }, props),
+        React.createElement("div", { style: titleStyle }, placeholderTitle(type, title)),
+        message && React.createElement("div", { style: messageStyle }, message)));
 }
 const baseStyle = {
     background: undefined,

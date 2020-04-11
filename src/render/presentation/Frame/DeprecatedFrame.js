@@ -257,10 +257,9 @@ export class DeprecatedFrame extends Layer {
         const style = this.getStyle();
         const rect = this.rect;
         const parentSize = { width: rect.width, height: rect.height };
-        return (<div id={id} style={style} ref={this.setElement} className={className}>
-                <ProvideParentSize parentSize={parentSize}>{this.layoutChildren()}</ProvideParentSize>
-                <Border {...this.props}/>
-            </div>);
+        return (React.createElement("div", { id: id, style: style, ref: this.setElement, className: className },
+            React.createElement(ProvideParentSize, { parentSize: parentSize }, this.layoutChildren()),
+            React.createElement(Border, Object.assign({}, this.props))));
     }
     layoutChildren() {
         let _forwardedOverrides = this.props._forwardedOverrides;
@@ -292,7 +291,7 @@ export class DeprecatedFrame extends Layer {
         });
         // We wrap raw strings in a default style to display
         if (children && children.length === 1 && typeof children[0] === "string") {
-            children = [<Center key="0">{children}</Center>];
+            children = [React.createElement(Center, { key: "0" }, children)];
         }
         return children;
     }
@@ -321,5 +320,5 @@ export const Center = props => {
         justifyContent: "center",
         fontFamily: "Helvetica",
     }, props.style || {});
-    return <div style={style}>{props.children}</div>;
+    return React.createElement("div", { style: style }, props.children);
 };

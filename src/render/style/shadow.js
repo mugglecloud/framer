@@ -112,13 +112,11 @@ export function shadowForShape(boxShadows, rect, shapeId, fillAlpha, strokeAlpha
         const filterY = (shadowRect.y / height) * 100;
         const filterWidth = (shadowRect.width / width) * 100;
         const filterHeight = (shadowRect.height / height) * 100;
-        definition.push(<filter key={outsideShadowId.id} id={outsideShadowId.id} x={`${filterX.toFixed(1)}%`} y={`${filterY.toFixed(1)}%`} width={`${filterWidth.toFixed(1)}%`} height={`${filterHeight.toFixed(1)}%`} filterUnits="objectBoundingBox" filterRes={filterRes.string}>
-                {filterElements}
-                {shadows.length > 1 ? <feMerge>{mergeElements}</feMerge> : null}
-            </filter>);
-        outsetElement = (<g filter={outsideShadowId.urlLink}>
-                <use {...svgStrokeAttributes} fill="black" fillOpacity={fillAlpha <= 0 ? 0 : 1} stroke="black" strokeOpacity={strokeAlpha <= 0 ? 0 : 1} strokeWidth={strokeAlpha > 0 ? strokeWidth : 0} xlinkHref={shapeId.link} clipPath={strokeClipId.urlLink}/>
-            </g>);
+        definition.push(React.createElement("filter", { key: outsideShadowId.id, id: outsideShadowId.id, x: `${filterX.toFixed(1)}%`, y: `${filterY.toFixed(1)}%`, width: `${filterWidth.toFixed(1)}%`, height: `${filterHeight.toFixed(1)}%`, filterUnits: "objectBoundingBox", filterRes: filterRes.string },
+            filterElements,
+            shadows.length > 1 ? React.createElement("feMerge", null, mergeElements) : null));
+        outsetElement = (React.createElement("g", { filter: outsideShadowId.urlLink },
+            React.createElement("use", Object.assign({}, svgStrokeAttributes, { fill: "black", fillOpacity: fillAlpha <= 0 ? 0 : 1, stroke: "black", strokeOpacity: strokeAlpha <= 0 ? 0 : 1, strokeWidth: strokeAlpha > 0 ? strokeWidth : 0, xlinkHref: shapeId.link, clipPath: strokeClipId.urlLink }))));
     }
     if (insetShadows.length) {
         insetShadows.reverse();
@@ -151,16 +149,15 @@ export function shadowForShape(boxShadows, rect, shapeId, fillAlpha, strokeAlpha
             filterElements.push(shadowElements.filterElements);
             mergeElements.push(shadowElements.mergeElement);
         }
-        definition.push(<filter key={insideShadowId.id} id={insideShadowId.id} x={`${filterX.toFixed(1)}%`} y={`${filterY.toFixed(1)}%`} width={`${filterWidth.toFixed(1)}%`} height={`${filterHeight.toFixed(1)}%`} filterUnits="objectBoundingBox" filterRes={filterRes.string}>
-                {filterElements}
-                {insetShadows.length > 1 ? <feMerge>{mergeElements}</feMerge> : null}
-            </filter>);
+        definition.push(React.createElement("filter", { key: insideShadowId.id, id: insideShadowId.id, x: `${filterX.toFixed(1)}%`, y: `${filterY.toFixed(1)}%`, width: `${filterWidth.toFixed(1)}%`, height: `${filterHeight.toFixed(1)}%`, filterUnits: "objectBoundingBox", filterRes: filterRes.string },
+            filterElements,
+            insetShadows.length > 1 ? React.createElement("feMerge", null, mergeElements) : null));
         // if we rendered at lower resolution, we need a clip path ...
         let clipPath;
         if (needsStrokeClip) {
             clipPath = strokeClipId.urlLink;
         }
-        insetElement = (<use fill="black" fillOpacity="1" filter={insideShadowId.urlLink} xlinkHref={shapeId.link} clipPath={clipPath}/>);
+        insetElement = (React.createElement("use", { fill: "black", fillOpacity: "1", filter: insideShadowId.urlLink, xlinkHref: shapeId.link, clipPath: clipPath }));
     }
     return { definition, outsetElement, insetElement, needsStrokeClip };
 }
@@ -169,8 +166,8 @@ function outerShadowElements(shapeID, shadow, index) {
     const offsetResultId = shadowKey.add("offset").id;
     const blurResultId = shadowKey.add("blur").id;
     const matrixResultId = shadowKey.add("matrix").id;
-    const filterElements = (<OuterShadowFilterElements key={shadowKey.id + "-filters"} shadow={shadow} blurId={blurResultId} offsetId={offsetResultId} matrixId={matrixResultId}/>);
-    const mergeElement = <feMergeNode key={shadowKey.id + "-merge"} in={matrixResultId}/>;
+    const filterElements = (React.createElement(OuterShadowFilterElements, { key: shadowKey.id + "-filters", shadow: shadow, blurId: blurResultId, offsetId: offsetResultId, matrixId: matrixResultId }));
+    const mergeElement = React.createElement("feMergeNode", { key: shadowKey.id + "-merge", in: matrixResultId });
     return { filterElements, mergeElement };
 }
 const OuterShadowFilterElements = props => {
@@ -188,13 +185,10 @@ const OuterShadowFilterElements = props => {
     const g = roundedNumberString(rgb.g / 255, 3);
     const b = roundedNumberString(rgb.b / 255, 3);
     const matrixValues = `0 0 0 0 ${r}   0 0 0 0 ${g}   0 0 0 0 ${b}  0 0 0 ${rgb.a} 0`;
-    return (<>
-            <feOffset dx={shadow.x} dy={shadow.y} in={"SourceAlpha"} result={offsetId}/>
-            <feGaussianBlur stdDeviation={shadow.blur / 2} in={offsetId} result={blurId}/>
-            
-            
-            <feColorMatrix colorInterpolationFilters={"sRGB"} values={matrixValues} type="matrix" in={blurId} result={matrixId}/>
-        </>);
+    return (React.createElement(React.Fragment, null,
+        React.createElement("feOffset", { dx: shadow.x, dy: shadow.y, in: "SourceAlpha", result: offsetId }),
+        React.createElement("feGaussianBlur", { stdDeviation: shadow.blur / 2, in: offsetId, result: blurId }),
+        React.createElement("feColorMatrix", { colorInterpolationFilters: "sRGB", values: matrixValues, type: "matrix", in: blurId, result: matrixId })));
 };
 function innerShadowElements(shapeID, shadow, index) {
     const shadowKey = shapeID.add("_inside_shadow" + index);
@@ -202,8 +196,8 @@ function innerShadowElements(shapeID, shadow, index) {
     const offsetId = shadowKey.add("offset").id;
     const compositeId = shadowKey.add("composite").id;
     const matrixId = shadowKey.add("matrix").id;
-    const filterElements = (<InnerShadowFilterElements key={shadowKey.id + "-filters"} shadow={shadow} blurId={blurId} offsetId={offsetId} compositeId={compositeId} matrixId={matrixId}/>);
-    const mergeElement = <feMergeNode key={shadowKey.id + "-merge"} in={matrixId}/>;
+    const filterElements = (React.createElement(InnerShadowFilterElements, { key: shadowKey.id + "-filters", shadow: shadow, blurId: blurId, offsetId: offsetId, compositeId: compositeId, matrixId: matrixId }));
+    const mergeElement = React.createElement("feMergeNode", { key: shadowKey.id + "-merge", in: matrixId });
     return { filterElements, mergeElement };
 }
 const InnerShadowFilterElements = props => {
@@ -221,12 +215,11 @@ const InnerShadowFilterElements = props => {
     const g = rgb.g / 255;
     const b = rgb.b / 255;
     const matrixValues = `0 0 0 0 ${r}   0 0 0 0 ${g}   0 0 0 0 ${b}  0 0 0 ${rgb.a} 0`;
-    return (<>
-            <feGaussianBlur stdDeviation={shadow.blur / 2} in={"SourceAlpha"} result={blurId}/>
-            <feOffset dx={shadow.x} dy={shadow.y} in={blurId} result={offsetId}/>
-            <feComposite in={offsetId} in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result={compositeId}/>
-            <feColorMatrix colorInterpolationFilters={"sRGB"} values={matrixValues} type="matrix" in={compositeId} result={matrixId}/>
-        </>);
+    return (React.createElement(React.Fragment, null,
+        React.createElement("feGaussianBlur", { stdDeviation: shadow.blur / 2, in: "SourceAlpha", result: blurId }),
+        React.createElement("feOffset", { dx: shadow.x, dy: shadow.y, in: blurId, result: offsetId }),
+        React.createElement("feComposite", { in: offsetId, in2: "SourceAlpha", operator: "arithmetic", k2: "-1", k3: "1", result: compositeId }),
+        React.createElement("feColorMatrix", { colorInterpolationFilters: "sRGB", values: matrixValues, type: "matrix", in: compositeId, result: matrixId })));
 };
 export function localShadowFrame(shadow, frame, isSVG) {
     let growth = shadow.blur;

@@ -36,6 +36,6 @@ export class DataObserver extends React.Component {
             const observer = Data.addObserver(d, this.observer);
             this.observers.push(observer);
         });
-        return React.createElement(DataObserverContext.Provider, { value: Object.assign({}, this.state) }, children);
+        return React.createElement(DataObserverContext.Provider, { value: { ...this.state } }, children);
     }
 }

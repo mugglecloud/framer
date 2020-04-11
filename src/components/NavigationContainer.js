@@ -30,7 +30,7 @@ export class NavigationContainer extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if (isEqual(props, state.previousProps))
             return null;
-        const newState = Object.assign(Object.assign({}, state), { previousProps: props });
+        const newState = { ...state, previousProps: props };
         const shouldBeVisible = props.visible && !props.hideAfterTransition;
         if (shouldBeVisible) {
             newState.visible = true;
@@ -52,7 +52,7 @@ export class NavigationContainer extends React.Component {
         const { backdropColor, onTapBackdrop, backfaceVisible, hideAfterTransition, animation, instant, initialProps, transitionProps, position = { top: 0, right: 0, bottom: 0, left: 0 }, } = this.props;
         const { visible, containerPerspective, origins } = this.state;
         const transition = instant ? { type: false } : animation;
-        const layout = Object.assign({}, position);
+        const layout = { ...position };
         if (layout.left === undefined || layout.right === undefined)
             layout.width = "auto";
         if (layout.top === undefined || layout.bottom === undefined)
@@ -66,7 +66,7 @@ export class NavigationContainer extends React.Component {
                 visibility: visible ? "visible" : "hidden",
             } },
             React.createElement(FrameWithMotion, { width: "100%", height: "100%", transition: transition, initial: { opacity: instant && visible ? 1 : 0 }, animate: { opacity: hideAfterTransition ? 0 : 1 }, background: backdropColor ? backdropColor : "transparent", onTap: onTapBackdrop }),
-            React.createElement(FrameWithMotion, Object.assign({}, layout, { initial: Object.assign(Object.assign(Object.assign({}, allAnimatableProperties), origins), initialProps), animate: Object.assign(Object.assign(Object.assign({}, allAnimatableProperties), origins), transitionProps), transition: {
+            React.createElement(FrameWithMotion, Object.assign({}, layout, { initial: { ...allAnimatableProperties, ...origins, ...initialProps }, animate: { ...allAnimatableProperties, ...origins, ...transitionProps }, transition: {
                     default: transition,
                     originX: { type: false },
                     originY: { type: false },
@@ -78,7 +78,7 @@ export class NavigationContainer extends React.Component {
     }
 }
 function getOriginProps(currentOriginProps, initialProps, transitionProps) {
-    const result = Object.assign({}, currentOriginProps);
+    const result = { ...currentOriginProps };
     if (initialProps) {
         if (isFiniteNumber(initialProps.originX))
             result.originX = initialProps.originX;

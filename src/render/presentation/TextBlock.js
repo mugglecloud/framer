@@ -22,9 +22,8 @@ export class TextBlock extends React.Component {
             fontSize: "1px",
             textAlign: blockProps.alignment,
         };
-        return (<div style={blockStyle}>
-                <EditorBlock {...this.props} block={styledBlock || block}/>
-            </div>);
+        return (React.createElement("div", { style: blockStyle },
+            React.createElement(EditorBlock, Object.assign({}, this.props, { block: styledBlock || block }))));
     }
 }
 /**

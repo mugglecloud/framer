@@ -13,5 +13,5 @@ export const ComponentContainerLoader = props => {
         title = file;
         message = error instanceof Error ? error.message : error;
     }
-    return <ComponentPlaceholder type={type} title={title} message={message}/>;
+    return React.createElement(ComponentPlaceholder, { type: type, title: title, message: message });
 };

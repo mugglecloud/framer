@@ -23,9 +23,9 @@ export const Frame = forwardRef(function Frame(props, ref) {
     if (isDeprecatedFrameProps(props)) {
         const currentParentSize = props.parentSize || deprecatedParentSize(parentSize);
         // We use here DeprecatedFrame WithEvents for simplicity
-        return <DeprecatedFrameWithEvents {...props} parentSize={currentParentSize}/>;
+        return React.createElement(DeprecatedFrameWithEvents, Object.assign({}, props, { parentSize: currentParentSize }));
     }
-    return <FrameWithMotion {...props} ref={ref}/>;
+    return React.createElement(FrameWithMotion, Object.assign({}, props, { ref: ref }));
 });
 Frame.rect = (props, parentSize) => {
     if (isDeprecatedFrameProps(props)) {

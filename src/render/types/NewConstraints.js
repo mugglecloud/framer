@@ -200,15 +200,15 @@ export const ProvideParentSize = props => {
     const currentParentSize = useParentSize();
     const { parentSize, children } = props;
     if (currentParentSize === ParentSizeState.Disabled) {
-        return children ? <>{children}</> : null;
+        return children ? React.createElement(React.Fragment, null, children) : null;
     }
     const memoKey = isSize(parentSize) ? [parentSize.width, parentSize.height] : [parentSize, -1];
     const value = React.useMemo(() => ({ size: parentSize }), memoKey);
-    return <ConstraintsContext.Provider value={value}>{children}</ConstraintsContext.Provider>;
+    return React.createElement(ConstraintsContext.Provider, { value: value }, children);
 };
 export const ConsumeParentSize = ConstraintsContext.Consumer;
 export function useProvideParentSize(node, parentSize) {
-    return <ProvideParentSize parentSize={parentSize}>{node}</ProvideParentSize>;
+    return React.createElement(ProvideParentSize, { parentSize: parentSize }, node);
 }
 export function useConstraints(props) {
     const parentSize = useParentSize();

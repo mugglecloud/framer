@@ -1,14 +1,3 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import * as React from "react";
 import { NavigationTransitionType, } from "../../render";
 import { NavigationContext } from "../Navigation";
@@ -44,7 +33,10 @@ export function WithNavigator(BaseComponent, navigationTransition, navigationTra
                             navigation.push(component, { appearsFrom });
                             break;
                         case NavigationTransitionType.overlay:
-                            navigation.overlay(component, Object.assign(Object.assign({}, navigationTransitionOptions), { appearsFrom }));
+                            navigation.overlay(component, {
+                                ...navigationTransitionOptions,
+                                appearsFrom,
+                            });
                             break;
                         case NavigationTransitionType.flip:
                             navigation.flip(component, { appearsFrom });
@@ -52,7 +44,7 @@ export function WithNavigator(BaseComponent, navigationTransition, navigationTra
                     }
                 };
                 // Invoke the component’s normal onTap handler as well as the navigation function.
-                const _a = this.props, { onTap } = _a, props = __rest(_a, ["onTap"]);
+                const { onTap, ...props } = this.props;
                 if (onTap) {
                     props.onTap = (...args) => {
                         onTap.apply(this, args);

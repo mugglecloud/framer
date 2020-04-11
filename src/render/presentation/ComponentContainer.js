@@ -84,9 +84,8 @@ export class ComponentContainer extends Layer {
         });
     }
     renderErrorPlaceholder(title, message) {
-        return (<FrameWithMotion {...this.props} background={null}>
-                <ComponentPlaceholder type={PlaceholderType.Error} title={title} message={message}/>
-            </FrameWithMotion>);
+        return (React.createElement(FrameWithMotion, Object.assign({}, this.props, { background: null }),
+            React.createElement(ComponentPlaceholder, { type: PlaceholderType.Error, title: title, message: message })));
     }
     render() {
         if (process.env.NODE_ENV !== "production" && safeWindow["perf"])
@@ -155,11 +154,8 @@ export class ComponentContainer extends Layer {
          * that is passed to be rendered here
          * See the stackBackgroundTest.tsx integration test for an example of such a case
          */
-        <ComponentContainerContext.Provider value={true}>
-                <FrameWithMotion background={null} overflow="visible" {...frameProps}>
-                    {children}
-                </FrameWithMotion>
-            </ComponentContainerContext.Provider>);
+        React.createElement(ComponentContainerContext.Provider, { value: true },
+            React.createElement(FrameWithMotion, Object.assign({ background: null, overflow: "visible" }, frameProps), children)));
     }
 }
 ComponentContainer.supportsConstraints = true;
