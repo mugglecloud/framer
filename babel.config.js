@@ -5,7 +5,7 @@ module.exports = {
     "@babel/preset-typescript",
   ],
   plugins: [
-    "@babel/plugin-transform-typescript",
+    "@babel/plugin-transform-react-jsx",
     // "@babel/plugin-transform-parameters"
     // "@babel/plugin-transform-async-to-generator",
     // "@babel/plugin-proposal-object-rest-spread",
