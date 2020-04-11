@@ -1,0 +1,50 @@
+{
+  "name": "@mugglecloud/framer",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "mugglecloud <mugglecloud@163.com>",
+  "homepage": "https://github.com/mugglecloud/web#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mugglecloud/web.git"
+  },
+  "scripts": {
+    "build": "yarn clean && yarn babel src -d lib --copy-files",
+    "clean": "rimraf lib/* -g !.gitkeep",
+    "prepublish": "yarn build",
+    "start": "yarn babel --watch -d lib --copy-files src",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/mugglecloud/web/issues"
+  },
+  "peerDependencies": {
+    "axios": "^0.19.2",
+    "overmind": "^23.0.1",
+    "overmind-graphql": "^3.0.1",
+    "overmind-react": "^24.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.1",
+    "rimraf": "^3.0.2"
+  }
+}

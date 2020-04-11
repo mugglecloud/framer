@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es6",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "checkJs": false
+  },
+  "exclude": [
+    "dist",
+    "public",
+    ".cache",
+    "node_modules",
+    "node_modules/**/*"
+  ]
+}
