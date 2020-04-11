@@ -1,16 +1,15 @@
 import { LinearGradient, RadialGradient } from "../types/Gradient";
 import { Animatable } from "../../animation/Animatable";
-import { isMotionValue } from "../utils/isMotionValue";
+import { isMotionValue } from "../../render/utils/isMotionValue";
 import { Color } from "../types/Color";
 // Note: this does not include background images
-export function collectBackgroundFromProps({ background, backgroundColor, }, style) {
+export function collectBackgroundFromProps({ background, backgroundColor }, style) {
     if (backgroundColor) {
         if (typeof backgroundColor === "string" || isMotionValue(backgroundColor)) {
             style.backgroundColor = backgroundColor;
         }
         else if (Color.isColorObject(background)) {
-            style.backgroundColor =
-                background.initialValue || Color.toRgbString(background);
+            style.backgroundColor = background.initialValue || Color.toRgbString(background);
         }
     }
     else if (background) {
@@ -25,8 +24,7 @@ export function collectBackgroundFromProps({ background, backgroundColor, }, sty
             style.background = RadialGradient.toCSS(background);
         }
         else if (Color.isColorObject(background)) {
-            style.backgroundColor =
-                background.initialValue || Color.toRgbString(background);
+            style.backgroundColor = background.initialValue || Color.toRgbString(background);
         }
     }
 }

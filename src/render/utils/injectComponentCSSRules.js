@@ -1,5 +1,5 @@
-import * as CSS from "./css";
-import { RenderTarget } from "../types/RenderEnvironment";
+import * as CSS from "../utils/css";
+import { RenderTarget } from "../../render/types/RenderEnvironment";
 const componentCSSRules = `
 [data-framer-component-type] {
     position: absolute;
@@ -73,9 +73,7 @@ ${pageContentWrapperWrapperCSSRules}
  */
 const frameCSSRules = () => {
     const isPreview = RenderTarget.current() === RenderTarget.preview;
-    return isPreview
-        ? ` [data-framer-component-type="Frame"] * { pointer-events: auto; } `
-        : ``;
+    return isPreview ? ` [data-framer-component-type="Frame"] * { pointer-events: auto; } ` : ``;
 };
 export const injectComponentCSSRules = () => {
     CSS.add(combinedCSSRules);

@@ -9,7 +9,7 @@ export const Defaults = {
 export class PrecalculatedAnimator {
     constructor(options) {
         this.currentTime = 0;
-        this.options = Object.assign(Object.assign({}, Defaults), options);
+        this.options = { ...Defaults, ...options };
         this.animator = options.animator;
     }
     preCalculate() {
@@ -22,7 +22,7 @@ export class PrecalculatedAnimator {
             let value = this.animator.next(this.options.delta);
             if (typeof value === "object" && value) {
                 const object = value;
-                const copy = Object.assign({}, object);
+                const copy = { ...object };
                 value = copy;
             }
             this.values.push(value);

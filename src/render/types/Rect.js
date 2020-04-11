@@ -21,7 +21,7 @@ export var Rect;
     Rect.equals = equals;
     /** @alpha */
     Rect.atOrigin = (size) => {
-        return Object.assign(Object.assign({}, size), { x: 0, y: 0 });
+        return { ...size, x: 0, y: 0 };
     };
     /** @alpha */
     Rect.fromTwoPoints = (a, b) => {
@@ -58,7 +58,11 @@ export var Rect;
     Rect.offset = (rect, delta) => {
         const xOffset = typeof delta.x === "number" ? delta.x : 0;
         const yOffset = typeof delta.y === "number" ? delta.y : 0;
-        return Object.assign(Object.assign({}, rect), { x: rect.x + xOffset, y: rect.y + yOffset });
+        return {
+            ...rect,
+            x: rect.x + xOffset,
+            y: rect.y + yOffset,
+        };
     };
     /** @alpha */
     function inflate(rect, value) {

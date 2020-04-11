@@ -81,7 +81,13 @@ const windowKey = "FramerRenderEnvironment";
 /**
  * @internal
  */
-export const RenderEnvironment = Object.assign({ imageBaseURL: "", target: RenderTarget.preview, zoom: 1 }, safeWindow[windowKey]);
+export const RenderEnvironment = {
+    imageBaseURL: "",
+    target: RenderTarget.preview,
+    zoom: 1,
+    // Allow the environment to be pre-defined.
+    ...safeWindow[windowKey],
+};
 /**
  * This is used to temporarily execute a task in a different render environment (for example during export)
  * @internal

@@ -44,7 +44,7 @@ export class BezierAnimator {
             this.current = this.interpolator(value);
             return this.current;
         };
-        this.options = Object.assign(Object.assign({}, BezierDefaults), options);
+        this.options = { ...BezierDefaults, ...options };
         let controlPoints;
         if (typeof this.options.curve === "string") {
             controlPoints = controlPointsForCurve(this.options.curve);

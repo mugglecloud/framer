@@ -1,4 +1,4 @@
-import { runtime } from "./runtimeInjection";
+import { runtime } from "../utils/runtimeInjection";
 /**
  * Provide a title and controls for an action, used by Framer X
  * @param action - a reference to an {@link Action}

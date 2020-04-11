@@ -1,4 +1,4 @@
-import { safeWindow } from "./safeWindow";
+import { safeWindow } from "../utils/safeWindow";
 export function pointForEvent(event, customTarget = null) {
     let target;
     if (customTarget instanceof HTMLElement) {
@@ -26,8 +26,7 @@ export function pointForEvent(event, customTarget = null) {
         y: parseFloat(target.style.height || "0") / rect.height,
     };
     const point = {
-        x: scale.x *
-            (event.pageX - rect.left - target.clientLeft + target.scrollLeft),
+        x: scale.x * (event.pageX - rect.left - target.clientLeft + target.scrollLeft),
         y: scale.y * (event.pageY - rect.top - target.clientTop + target.scrollTop),
     };
     return point;

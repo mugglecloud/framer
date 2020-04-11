@@ -1,4 +1,4 @@
-import { safeWindow } from "./safeWindow";
+import { safeWindow } from "../utils/safeWindow";
 export const isWebKit = () => safeWindow["WebKitCSSMatrix"] !== undefined && !isEdge();
 export const webkitVersion = () => {
     let version = -1;
@@ -18,9 +18,7 @@ export const isAndroid = () => /(android)/i.test(navigator.userAgent);
 export const isIOS = () => /(iPhone|iPod|iPad)/i.test(navigator.platform);
 export const isMacOS = () => /Mac/.test(navigator.platform);
 export const isWindows = () => /Win/.test(navigator.platform);
-export const isTouch = () => safeWindow.ontouchstart === null &&
-    safeWindow.ontouchmove === null &&
-    safeWindow.ontouchend === null;
+export const isTouch = () => safeWindow.ontouchstart === null && safeWindow.ontouchmove === null && safeWindow.ontouchend === null;
 export const isDesktop = () => deviceType() === "desktop";
 export const isPhone = () => deviceType() === "phone";
 export const isTablet = () => deviceType() === "tablet";
@@ -28,8 +26,7 @@ export const isMobile = () => isPhone() || isTablet();
 export const isFileUrl = (url) => url.startsWith("file://");
 export const isDataUrl = (url) => url.startsWith("data:");
 export const isRelativeUrl = (url) => !/^([a-zA-Z]{1,8}:\/\/).*$/.test(url);
-export const isLocalServerUrl = (url) => /[a-zA-Z]{1,8}:\/\/127\.0\.0\.1/.test(url) ||
-    /[a-zA-Z]{1,8}:\/\/localhost/.test(url);
+export const isLocalServerUrl = (url) => /[a-zA-Z]{1,8}:\/\/127\.0\.0\.1/.test(url) || /[a-zA-Z]{1,8}:\/\/localhost/.test(url);
 export const isLocalUrl = (url) => {
     if (isFileUrl(url))
         return true;

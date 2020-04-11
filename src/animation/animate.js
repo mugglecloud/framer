@@ -107,7 +107,7 @@ export function animate(from, to, animator, options) {
      * @deprecated Use {@link MotionProps.animate} on {@link Frame} instead.
      */
     function linear(from, to, options) {
-        return animate.bezier(from, to, Object.assign(Object.assign({}, options), { curve: Bezier.Linear }));
+        return animate.bezier(from, to, { ...options, curve: Bezier.Linear });
     }
     animate.linear = linear;
     /**
@@ -129,7 +129,7 @@ export function animate(from, to, animator, options) {
      * @deprecated Use {@link MotionProps.animate} on {@link Frame} instead.
      */
     function ease(from, to, options) {
-        return animate.bezier(from, to, Object.assign(Object.assign({}, options), { curve: Bezier.Ease }));
+        return animate.bezier(from, to, { ...options, curve: Bezier.Ease });
     }
     animate.ease = ease;
     /**
@@ -151,7 +151,7 @@ export function animate(from, to, animator, options) {
      * @deprecated Use {@link MotionProps.animate} on {@link Frame} instead.
      */
     function easeIn(from, to, options) {
-        return animate.bezier(from, to, Object.assign(Object.assign({}, options), { curve: Bezier.EaseIn }));
+        return animate.bezier(from, to, { ...options, curve: Bezier.EaseIn });
     }
     animate.easeIn = easeIn;
     /**
@@ -173,7 +173,7 @@ export function animate(from, to, animator, options) {
      * @deprecated Use {@link MotionProps.animate} on {@link Frame} instead.
      */
     function easeOut(from, to, options) {
-        return animate.bezier(from, to, Object.assign(Object.assign({}, options), { curve: Bezier.EaseOut }));
+        return animate.bezier(from, to, { ...options, curve: Bezier.EaseOut });
     }
     animate.easeOut = easeOut;
     /**
@@ -195,7 +195,7 @@ export function animate(from, to, animator, options) {
      * @deprecated Use {@link MotionProps.animate} on {@link Frame} instead.
      */
     function easeInOut(from, to, options) {
-        return animate.bezier(from, to, Object.assign(Object.assign({}, options), { curve: Bezier.EaseInOut }));
+        return animate.bezier(from, to, { ...options, curve: Bezier.EaseInOut });
     }
     animate.easeInOut = easeInOut;
 })(animate || (animate = {}));

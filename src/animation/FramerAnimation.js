@@ -42,7 +42,7 @@ export class FramerAnimation {
          */
         this.readyPromise = Promise.resolve();
         this.resetFinishedPromise();
-        const animationOptions = Object.assign({}, DefaultAnimationOptions);
+        const animationOptions = { ...DefaultAnimationOptions };
         const animatorOptions = {};
         if (options) {
             Object.assign(animationOptions, options);

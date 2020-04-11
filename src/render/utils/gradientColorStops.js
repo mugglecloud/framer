@@ -26,7 +26,7 @@ export function gradientColorStops(gradient, alpha = 1) {
         return stops;
     }
     else {
-        return stops.map(stop => (Object.assign(Object.assign({}, stop), { value: cachedMultiplyAlpha(stop.value, alpha) })));
+        return stops.map(stop => ({ ...stop, value: cachedMultiplyAlpha(stop.value, alpha) }));
     }
 }
 export function gradientColorStopsHash(gradient, alpha) {
