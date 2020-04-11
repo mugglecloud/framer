@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src-ts",
     "target": "ES2017",
     "jsx": "react",
     "module": "ESNext",
@@ -13,10 +13,10 @@
     "noImplicitReturns": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "outDir": "../lib"
+    "outDir": "./lib"
   },
   "include": [
-    "*"
+    "src-ts/*"
   ],
   "exclude": [
     "node_modules",
