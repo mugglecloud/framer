@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const webRuntime = require('..');
+const webRuntime = require("../src");
 
-describe('@mugglecloud/web-runtime', () => {
-    it('needs tests');
+describe("@mugglecloud/framer", () => {
+  it("needs tests");
 });

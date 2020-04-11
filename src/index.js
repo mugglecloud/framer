@@ -1,70 +1,31 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./containers/App";
-import { RuntimeProvider } from "./containers/Runtime";
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-
-export { useOvermind, useStore, bindScope } from "./hooks";
-export { RuntimeProvider } from "./containers/Runtime";
-
-/*
-config: {
-  providers: Array<{
-    element: ReactElement,
-    props: ReactProps
-  }>
-
-  initializer: ReactElement,
-
-  routes: Array<{
-    path: string,
-    exact: boolean,
-    need_auth: boolean,
-    redirect: string,
-    ui_components: Array<{
-      name,
-      props,
-      component | source,
-    }>
-  }>
-
-  pages: {
-    auth: ReactElement,
-    redirect: string,
-    nomatch: ReactElement
-  }
-
-  runtime_deps: Array<{
-    name,
-    url
-  }>
-}
-*/
-
-export default function render(
-  config = {
-    style: {},
-    providers: [],
-    initializer: null,
-    routes: [],
-    pages: {
-      auth: null,
-      nomatch: null,
-      loading: null
-    },
-    runtime_deps: [],
-    ui_components: null,
-    namespaces: null
-  }
-) {
-  ReactDOM.render(
-    <RuntimeProvider config={config}>
-      <App />
-    </RuntimeProvider>,
-    document.getElementById("root")
-  );
+export * from "framer-motion";
+export { Scroll, ScrollProps, ScrollEvents, ScrollConfig, Page, PageEvents, PageProps, PageProperties, PageEffect, PageEffectInfo, PageAlignment, Draggable, Stack, StackProperties, StackSpecificProps, Navigation, calcChildLayoutRects, } from "./components";
+export { WithNavigator } from "./components/hoc/WithNavigator";
+export { Device, DeviceSkin, DeviceSkins, DeviceRenderer, } from "./components/devices/Device";
+export * from "./components/devices/Devices";
+export { AnyInterpolation, ValueInterpolation } from "./interpolation";
+export { Animatable, AnimatableObject, Cancel, DeprecatedAnimationTarget, isAnimatable } from "./animation/Animatable";
+export { animate } from "./animation/animate";
+export { FramerAnimation } from "./animation/FramerAnimation";
+export { BezierAnimator, SpringAnimator } from "./animation/Animators";
+export { FramerEvent, FramerEventListener, FramerEventSession } from "./events";
+export { Point, Size, Rect, Vector, VectorGroup, ComponentContainer, ComponentIdentifier, SVG, Text, TextColorProperties, Frame, FrameProps, BaseFrameProps, FrameLayoutProperties, CSSTransformProperties, VisualProperties, DeprecatedFrame, QualityOptions, DeprecatedFrameProperties, DeprecatedFrameWithEvents, DeprecatedFrameWithEventsProps, componentLoader, setGlobalRenderEnvironment, RenderTarget, ControlType, PropertyControls, NumberControlDescription, EnumControlDescription, BooleanControlDescription, StringControlDescription, ColorControlDescription, FusedNumberControlDescription, SegmentedEnumControlDescription, ImageControlDescription, FileControlDescription, ComponentInstanceDescription, ArrayControlDescription, EventHandlerControlDescription, ControlDescription, getConfigFromPreviewURL as getConfigFromURL, getConfigFromPreviewURL, getConfigFromVekterURL, serverURL, NavigationInterface, NavigationConsumer, NavigationLink, NavigationTransitionDirection, NavigationTransitionSide, NavigationTransitionPosition, NavigationTransitionAnimation, NavigationTransitionAppearsFrom, NavigationTransitionBackdropColor, NavigationTransition, FadeTransitionOptions, PushTransitionOptions, ModalTransitionOptions, OverlayTransitionOptions, FlipTransitionOptions, NavigationProps, useNavigation, isReactDefinition, createDesignComponent, CanvasStore, isOverride, Color, ConvertColor, ColorMixModelType, addServerUrlToResourceProps, BackgroundProperties, CustomProperties, CustomPropertiesContext, constraintsEnabled, throttle, debounce, LinearGradient, RadialGradient, BackgroundImage, ImageFit, isMotionValue, } from "./render";
+export { ObservableObject } from "./data/ObservableObject";
+export { Data } from "./data/Data";
+export { createData, DataContext } from "./data/useData";
+export { WithOverride } from "./deprecated/WithOverride";
+export { Action, ActionHandler, ActionControlDescription, ActionControls } from "./render/types/Action";
+export { addActionControls } from "./utils/addActionControls";
+export { DataObserver, DataObserverContext } from "./deprecated/DataObserver";
+export { PropertyStore } from "./data/PropertyStore";
+export { loadJSON } from "./utils/network";
+export { print } from "./utils/print";
+export { _injectRuntime } from "./utils/runtimeInjection";
+export { addPropertyControls, getPropertyControls } from "./utils/addPropertyControls";
+export { version } from "./version";
+import { MainLoop } from "./core/Loop";
+export { MainLoop };
+// Only start the loop if this is the library
+if (process.env.BUILD_NAME === "framer") {
+    MainLoop.start();
 }
