@@ -1,11 +1,11 @@
-# `@mugglecloud/web-runtime`
+# `@mugglecloud/framer`
 
 > TODO: description
 
 ## Usage
 
 ```
-const webRuntime = require('@mugglecloud/web-runtime');
+const framer = require('@mugglecloud/framer');
 
 // TODO: DEMONSTRATE API
 ```
